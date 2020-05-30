@@ -24,7 +24,6 @@ function showState(){
     var botoes = document.querySelectorAll('.bola button')
     player.sequency.forEach((color, index) => {
         setTimeout(() =>{
-            console.log(`Acendendo ${color}`)
             document.querySelector(`.${color}`).style.backgroundColor = 'white';
         }, (index+0.5)*1000)
         setTimeout(() =>{
@@ -33,21 +32,35 @@ function showState(){
     })
 }
 
+//SETTING START
+function start(){
+    let name = document.querySelector('input').value.toUpperCase()
+    if(name === '') {document.getElementById('nickname').textContent = 'NICKNAME'}
+    else{document.getElementById('nickname').textContent = name}
+    document.querySelector('.game').classList.toggle('hide')
+    document.querySelector('.menu').classList.toggle('hide')
+    player.sequency = []
+    player.rounds = []
+    randomColor()
+    document.querySelector('#level').textContent = `LEVEL: ${player.sequency.length}`
+    showState()
+}
+
 //VERIFING IF THE USER LOST OR WIN
 function validate(){
     if(player.sequency.length == player.rounds.length){
         let validate = player.sequency.filter((elem, i) => elem == player.rounds[i])
         if(validate.length < player.rounds.length){
-            alert('GAME OVER')
             player.sequency = []
             player.rounds = []
+            alert('GAME OVER')
+            document.querySelector('input').value = '';
+            start()
         }
         if(validate.length == player.rounds.length){
-            console.log(player.rounds)
             validate = []
             player.rounds =[]
             randomColor()
-            console.log(player.sequency)
             showState()
         }
     }
@@ -57,39 +70,28 @@ function validate(){
 
 //STARTING THE GAME
 document.querySelector('.botao').addEventListener("click", () => {
-        let name = document.querySelector('input').value.toUpperCase()
-        if(name === '') {document.getElementById('nickname').textContent = 'NICKNAME'}
-        else{document.getElementById('nickname').textContent = name}
-        document.querySelector('.game').classList.toggle('hide')
-        document.querySelector('.menu').classList.toggle('hide')
-        randomColor()
-        console.log(player.sequency)
-        showState()
+    start()
 })
 
 
 //SETUP BUTTONS
 document.querySelector('.green').addEventListener("click", ()=>{
-    console.log(player.sequency)
     player.rounds.push('green')
-    document.querySelector('#level').textContent = `LEVEL: ${player.sequency.length+1}`
     validate()
+    document.querySelector('#level').textContent = `LEVEL: ${player.sequency.length}`
 })
 document.querySelector('.red').addEventListener("click", ()=>{
-    console.log(player.sequency)
     player.rounds.push('red')
-    document.querySelector('#level').textContent = `LEVEL: ${player.sequency.length+1}`
     validate()
+    document.querySelector('#level').textContent = `LEVEL: ${player.sequency.length}`
 })
 document.querySelector('.yellow').addEventListener("click", ()=>{
-    console.log(player.sequency)
     player.rounds.push('yellow')
-    document.querySelector('#level').textContent = `LEVEL: ${player.sequency.length+1}`
     validate()
+    document.querySelector('#level').textContent = `LEVEL: ${player.sequency.length}`
 })
 document.querySelector('.blue').addEventListener("click", ()=>{
-    console.log(player.sequency)
     player.rounds.push('blue')
-    document.querySelector('#level').textContent = `LEVEL: ${player.sequency.length+1}`
     validate()
+    document.querySelector('#level').textContent = `LEVEL: ${player.sequency.length}`
 })
